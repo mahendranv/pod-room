@@ -1,0 +1,42 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory app:title="Podcasts">
+
+        <EditTextPreference
+            app:key="add_podcast"
+            app:summary="Input podcast RSS feed url to fetch channel and episodes."
+            app:title="Add podcast" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="Player">
+
+        <EditTextPreference
+            app:key="enqueue"
+            app:summary="Picks random episode and adds to queue"
+            app:title="Enqueue" />
+
+        <EditTextPreference
+            app:key="play_next"
+            app:summary="Adds item to 1st position"
+            app:title="Enqueue next" />
+
+        <Preference
+            app:key="clean_queue"
+            app:title="Clean queue" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="Advanced">
+        <Preference
+            app:key="clear_all"
+            app:summary="Clears all tables"
+            app:title="Clear all" />
+
+        <Preference
+            app:key="version"
+            app:summary="V1.0"
+            app:title="Version" />
+    </PreferenceCategory>
+
+</PreferenceScreen>
