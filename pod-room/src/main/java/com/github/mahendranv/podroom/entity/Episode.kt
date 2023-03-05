@@ -3,23 +3,27 @@ package com.github.mahendranv.podroom.entity
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import androidx.room.Index
 import androidx.room.PrimaryKey
 
 @Entity(
     tableName = "episodes",
     foreignKeys = [
         ForeignKey(
-            entity = Channel::class,
+            entity = Podcast::class,
             parentColumns = ["id"],
             childColumns = ["channel_id"],
             onDelete = ForeignKey.CASCADE
         )
+    ],
+    indices = [
+        Index(value = ["stream_url"], unique = true)
     ]
 )
 data class Episode(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
-    val id: Int = 0,
+    val id: Long? = null,
     @ColumnInfo(name = "title")
     val title: String,
     @ColumnInfo(name = "description")
@@ -47,5 +51,5 @@ data class Episode(
     @ColumnInfo(name = "stream_size")
     val streamSize: Int,
     @ColumnInfo(name = "channel_id")
-    val channelId: Int
+    val channelId: Long
 )

@@ -2,10 +2,16 @@ package com.github.mahendranv.podroom.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "channels")
-data class Channel(
+@Entity(
+    tableName = "podcasts",
+    indices = [
+        Index(value = ["feed_url"], unique = true)
+    ]
+)
+data class Podcast(
     @PrimaryKey val id: Long?,
     @ColumnInfo(name = "title") val title: String,
     @ColumnInfo(name = "link") val link: String,

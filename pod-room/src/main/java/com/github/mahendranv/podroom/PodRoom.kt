@@ -1,39 +1,31 @@
 package com.github.mahendranv.podroom
 
 import android.content.Context
+import androidx.annotation.VisibleForTesting
 import com.github.mahendranv.AnchorParser
 import com.github.mahendranv.model.StatusCode
-import com.github.mahendranv.podroom.entity.Episode
+import com.github.mahendranv.podroom.db.PodcastDatabase
+import com.github.mahendranv.podroom.di.PodDIContainer
+import com.github.mahendranv.podroom.model.PodResult
 
 class PodRoom private constructor(private val appContext: Context) {
+
+    internal val db = PodcastDatabase()
 
     /**
      * Fetches podcast and episodes and inserts to DB.
      */
-    suspend fun fetchPodcast(url: String) {
+    suspend fun syncPodcast(url: String): PodResult<Long> {
         val result = AnchorParser.parse(url)
-        if (result.statusCode == StatusCode.SUCCESS) {
+        return if (result.statusCode == StatusCode.SUCCESS) {
             val channel = result.channel
-            channel.items.map { item ->
-                Episode(
-                    title = item.title,
-                    description = item.description,
-                    link = item.link,
-                    guid = item.guid,
-                    season = item.season,
-                    episode = item.episode,
-                    explicit = item.isExplicit,
-                    pubDate = item.pubDate.time,
-                    durationInSeconds = item.durationInSeconds,
-                    duration = item.printableDuration,
-                    streamUrl = item.enclosure.url,
-                    streamType = item.enclosure.type,
-                    streamSize = item.enclosure.length.toInt(),
-                    channelId = 10
-                )
-            }.forEach {
-                println("Item -> $it")
-            }
+            val id = db.addChannel(channel)
+            PodResult.Success(id)
+        } else {
+            PodResult.Failure(
+                errorCode = result.statusCode.ordinal,
+                Exception("Anchor parse failed ${result.statusCode}")
+            )
         }
     }
 
@@ -45,7 +37,13 @@ class PodRoom private constructor(private val appContext: Context) {
             if (instance == null) {
                 instance = PodRoom(context)
             }
+            PodDIContainer.getInstance().initialize(context)
             return instance as PodRoom
+        }
+
+        @VisibleForTesting
+        fun clearInstance() {
+            instance = null
         }
     }
 }
