@@ -29,15 +29,18 @@ class PodRoom private constructor(private val appContext: Context) {
         }
     }
 
+    fun getPodcastDao() = db.db.getPodcastDao()
+    fun getEpisodeDao() = db.db.getEpisodeDao()
+
     companion object {
         private var instance: PodRoom? = null
 
         @Synchronized
         fun getInstance(context: Context): PodRoom {
+            PodDIContainer.getInstance().initialize(context)
             if (instance == null) {
                 instance = PodRoom(context)
             }
-            PodDIContainer.getInstance().initialize(context)
             return instance as PodRoom
         }
 

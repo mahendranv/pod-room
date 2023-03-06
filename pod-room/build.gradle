@@ -48,6 +48,7 @@ android {
 
 dependencies {
 
+    implementation 'javax.xml.stream:stax-api:1.0-2'
     implementation 'com.github.mahendranv:anchor-rss:0.3'
 //    implementation project(':anchor-rss')
 

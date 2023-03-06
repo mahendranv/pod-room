@@ -3,9 +3,21 @@
     <PreferenceCategory app:title="Podcasts">
 
         <EditTextPreference
+            app:icon="@drawable/baseline_add_24"
             app:key="add_podcast"
             app:summary="Input podcast RSS feed url to fetch channel and episodes."
             app:title="Add podcast" />
+
+        <Preference
+            app:icon="@drawable/baseline_rss_feed_24"
+            app:key="view_podcasts"
+            app:title="View podcasts" />
+
+        <Preference
+            app:icon="@drawable/baseline_playlist_play_24"
+            app:key="view_episodes"
+            app:summary="Lists all episodes across podcasts"
+            app:title="View episodes" />
 
     </PreferenceCategory>
 
@@ -27,11 +39,11 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="Advanced">
+    <PreferenceCategory app:title="Misc">
+
         <Preference
             app:key="clear_all"
-            app:summary="Clears all tables"
-            app:title="Clear all" />
+            app:title="Clear all tables" />
 
         <Preference
             app:key="version"
