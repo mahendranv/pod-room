@@ -22,6 +22,10 @@ class DemoViewModel(application: Application) : AndroidViewModel(application) {
         podRoom.getPodcastDao().fetchAll()
             .flowOn(Dispatchers.IO)
 
+    val allEpisodes =
+        podRoom.getEpisodeDao().getAllEpisodes()
+            .flowOn(Dispatchers.IO)
+
     fun addPodcast(url: String) = viewModelScope.launch(Dispatchers.IO) {
         val result = podRoom.syncPodcast(url)
         Log.d(TAG, "addPodcast: $url = $result")

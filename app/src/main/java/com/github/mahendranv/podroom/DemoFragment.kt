@@ -2,7 +2,6 @@ package com.github.mahendranv.podroom
 
 import android.os.Bundle
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
@@ -24,6 +23,10 @@ class DemoFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChangeLi
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.root_preferences, rootKey)
 
+        findPreference<Preference>("version")?.setSummaryProvider {
+            PodRoom.Version + "/" + PodRoom.VersionCode
+        }
+
         for (k in keys) {
             findPreference<Preference>(k)?.onPreferenceChangeListener = this
         }
@@ -39,10 +42,6 @@ class DemoFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChangeLi
             "add_podcast" -> {
                 viewModel.addPodcast(newValue as String)
             }
-            "view_podcasts" -> {
-
-            }
-            "view_episodes" -> {}
         }
         return false
     }
@@ -52,7 +51,9 @@ class DemoFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChangeLi
             "view_podcasts" -> {
                 findNavController().navigate(R.id.action_demoFragment_to_podcastsListFragment)
             }
-            "view_episodes" -> {}
+            "view_episodes" -> {
+                findNavController().navigate(R.id.action_demoFragment_to_episodesListScreen)
+            }
         }
         return true
     }

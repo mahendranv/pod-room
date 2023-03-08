@@ -33,6 +33,10 @@ class PodRoom private constructor(private val appContext: Context) {
     fun getEpisodeDao() = db.db.getEpisodeDao()
 
     companion object {
+
+        const val Version = "0.1"
+        const val VersionCode = 1
+
         private var instance: PodRoom? = null
 
         @Synchronized

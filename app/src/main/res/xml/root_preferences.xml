@@ -1,5 +1,11 @@
 <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <Preference
+        app:icon="@drawable/baseline_adb_24"
+        app:key="version"
+        app:summary="V1.0"
+        app:title="Pod-room" />
+
     <PreferenceCategory app:title="Podcasts">
 
         <EditTextPreference
@@ -45,10 +51,6 @@
             app:key="clear_all"
             app:title="Clear all tables" />
 
-        <Preference
-            app:key="version"
-            app:summary="V1.0"
-            app:title="Version" />
     </PreferenceCategory>
 
 </PreferenceScreen>

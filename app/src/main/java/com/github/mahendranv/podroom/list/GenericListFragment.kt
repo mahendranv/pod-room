@@ -4,7 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.mahendranv.podroom.R
 
@@ -25,8 +28,16 @@ abstract class GenericListFragment : Fragment(), GenericListAdapter.OnItemClickL
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val toolbar = view.findViewById<Toolbar>(R.id.toolBar)
+        toolbar.setNavigationOnClickListener {
+            findNavController().popBackStack()
+        }
+        toolbar.title = getTitle()
+
         recyclerView = view.findViewById(R.id.generic_recycler_view)
         emptyView = view.findViewById(R.id.empty_view)
+        recyclerView.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         recyclerView.adapter = genericAdapter
     }
 
@@ -41,4 +52,6 @@ abstract class GenericListFragment : Fragment(), GenericListAdapter.OnItemClickL
             genericAdapter.notifyDataSetChanged()
         }
     }
+
+    abstract fun getTitle(): CharSequence
 }
