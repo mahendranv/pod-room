@@ -23,5 +23,7 @@ jobs:
 
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
-    - name: Build with Gradle
-      run: ./gradlew :pod-room:build
+    - name: Asemble
+      run: ./gradlew :pod-room:assembleDebug
+    - name: Run test
+      run: ./gradlew :pod-room:test
