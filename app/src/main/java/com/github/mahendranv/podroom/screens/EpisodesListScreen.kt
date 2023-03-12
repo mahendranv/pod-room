@@ -1,10 +1,12 @@
 package com.github.mahendranv.podroom.screens
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.github.mahendranv.podroom.DemoViewModel
+import com.github.mahendranv.podroom.entity.Episode
 import com.github.mahendranv.podroom.list.GenericListFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn
@@ -29,10 +31,26 @@ class EpisodesListScreen : GenericListFragment() {
     }
 
     override fun onItemClick(item: Any?) {
-        TODO("Not yet implemented")
+        // no-op
     }
 
-    override fun onItemLongClick(item: Any?): Boolean {
-        TODO("Not yet implemented")
+    override fun getActions(): List<String> = listOf(
+        "Play",
+        "Download"
+    )
+
+    override fun onActionClicked(position: Int, item: Any) {
+        val episode = item as? Episode? ?: return
+        when (position) {
+            0 -> {
+                Log.i(TAG, "onActionClicked: Play > $episode")
+            }
+            1 -> {
+                Log.i(TAG, "onActionClicked: Download > $episode")
+            }
+        }
     }
+
+    private val TAG = "EpisodesListScreen"
+
 }

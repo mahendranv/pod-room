@@ -1,13 +1,16 @@
 package com.github.mahendranv.podroom.list
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import androidx.appcompat.widget.ListPopupWindow
 import androidx.recyclerview.widget.RecyclerView
 import com.github.mahendranv.podroom.R
 
 class GenericListAdapter(
     private val clickListener: OnItemClickListener?,
-    private val longClickListener: OnItemLongClickListener?
+    private val popupHandler: IPopupHandler?
 ) : RecyclerView.Adapter<GenericItemHolder>() {
 
     private var itemList: List<Any> = emptyList()
@@ -25,10 +28,26 @@ class GenericListAdapter(
         val item = itemList[position]
         holder.textView.text = PodItemStrigifier.stringify(item)
         holder.textView.setOnClickListener { clickListener?.onItemClick(item) }
-        holder.textView.setOnLongClickListener {
-            longClickListener?.onItemLongClick(item)
-            true
+        if (popupHandler != null) {
+            holder.itemView.setOnLongClickListener { anchor ->
+                showPopup(anchor, item)
+                true
+            }
         }
+    }
+
+    private fun showPopup(anchorView: View, item: Any) {
+        val itemList = popupHandler?.getActions() ?: return
+        val popup = ListPopupWindow(anchorView.context)
+        val adapter =
+            ArrayAdapter(anchorView.context, android.R.layout.simple_list_item_1, itemList)
+        popup.anchorView = anchorView
+        popup.setAdapter(adapter)
+        popup.setOnItemClickListener { _, _, position, _ ->
+            popupHandler.onActionClicked(position, item)
+            popup.dismiss()
+        }
+        popup.show()
     }
 
     override fun getItemCount(): Int {
@@ -37,9 +56,5 @@ class GenericListAdapter(
 
     interface OnItemClickListener {
         fun onItemClick(item: Any?)
-    }
-
-    interface OnItemLongClickListener {
-        fun onItemLongClick(item: Any?): Boolean
     }
 }

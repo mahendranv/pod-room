@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.github.mahendranv.podroom.R
 
 abstract class GenericListFragment : Fragment(), GenericListAdapter.OnItemClickListener,
-    GenericListAdapter.OnItemLongClickListener {
+    IPopupHandler {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var emptyView: View
