@@ -32,4 +32,16 @@ class PodRoomTest : BaseTest() {
         val episodes = diContainer.db.getEpisodeDao().getAllEpisodes().firstOrNull()
         assertEquals(242, episodes?.size)
     }
+
+    @Test
+    fun test_fetch_remote_podcasts() = runBlocking {
+        val result = podRoom.syncPodcast(TestResources.REMOTE_URL_PODCAST_DOT_CO)
+        assertTrue(result is PodResult.Success)
+
+        val podcasts = diContainer.db.getPodcastDao().fetchAll().firstOrNull()
+        assertEquals(1, podcasts?.size)
+
+        val episodes = diContainer.db.getEpisodeDao().getAllEpisodes().firstOrNull()
+        assertTrue((episodes?.size ?: 0) > 0)
+    }
 }

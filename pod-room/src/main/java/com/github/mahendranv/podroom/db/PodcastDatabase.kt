@@ -25,7 +25,8 @@ class PodcastDatabase {
                 category = channel.category,
                 image = channel.image,
                 explicit = channel.isExplicit,
-                lastBuildDate = channel.lastBuildDate.time
+                // lastBuildDate is null on some feeds. Use current time to fill the same.
+                lastBuildDate = channel.lastBuildDate?.time ?: System.currentTimeMillis()
             )
             podcastDao.insertPodcast(newPodcast)
         }

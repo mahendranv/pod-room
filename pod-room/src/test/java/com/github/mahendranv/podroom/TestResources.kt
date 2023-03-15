@@ -1,7 +1,5 @@
 package com.github.mahendranv.podroom
 
-import android.net.Uri
-
 object TestResources {
 
     private fun testAssetUrl(relativePath: String): String {
@@ -12,4 +10,6 @@ object TestResources {
 
     val FEED_FRAGMENTED = testAssetUrl("feeds/fragmented.xml")
 
+    // https://www.podcast.co/resources/our-podcasts
+    val REMOTE_URL_PODCAST_DOT_CO = "https://feed.pod.co/the-podcast-lab"
 }
