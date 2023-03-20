@@ -3,7 +3,10 @@ package com.github.mahendranv.podroom.di
 import android.content.Context
 import androidx.annotation.VisibleForTesting
 import androidx.room.Room
-import com.github.mahendranv.podroom.db.PodcastDatabase
+import com.ctc.wstx.stax.WstxInputFactory
+import com.ctc.wstx.stax.WstxOutputFactory
+import com.fasterxml.jackson.dataformat.xml.XmlFactory
+import com.github.mahendranv.AnchorParser
 import com.github.mahendranv.podroom.db.PodcastDatabaseInternal
 
 internal class PodDIContainer private constructor() {
@@ -14,10 +17,19 @@ internal class PodDIContainer private constructor() {
     @VisibleForTesting
     lateinit var db: PodcastDatabaseInternal
 
+    @VisibleForTesting
+    lateinit var xmlFactory: XmlFactory
+
     fun initialize(context: Context) {
         if (isInitialized) {
             return
         }
+
+        xmlFactory = XmlFactory.builder()
+            .xmlInputFactory(WstxInputFactory())
+            .xmlOutputFactory(WstxOutputFactory())
+            .build()
+        AnchorParser.setFactory(xmlFactory)
 
         db = Room.databaseBuilder(
             context,

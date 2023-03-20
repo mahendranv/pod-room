@@ -22,8 +22,8 @@ class PodcastDatabase {
                 link = channel.link,
                 feedUrl = channel.feedUrl,
                 description = channel.description,
-                category = channel.category,
-                image = channel.image,
+                category = channel.category ?: "",
+                image = channel.image ?: "",
                 explicit = channel.isExplicit,
                 // lastBuildDate is null on some feeds. Use current time to fill the same.
                 lastBuildDate = channel.lastBuildDate?.time ?: System.currentTimeMillis()

@@ -46,6 +46,10 @@
     </PreferenceCategory>
 
     <PreferenceCategory app:title="Misc">
+        <Preference
+            app:key="add_preset_podcasts"
+            app:summary="Inserts few podcasts for initial seeding"
+            app:title="Add sample podcasts" />
 
         <Preference
             app:key="clear_all"

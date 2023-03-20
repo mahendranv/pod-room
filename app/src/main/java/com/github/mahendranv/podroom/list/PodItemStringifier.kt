@@ -1,12 +1,15 @@
 package com.github.mahendranv.podroom.list
 
+import android.annotation.SuppressLint
 import com.github.mahendranv.podroom.entity.Episode
+import com.github.mahendranv.podroom.entity.Podcast
 import java.text.SimpleDateFormat
 import java.util.Date
 
-object PodItemStrigifier {
+object PodItemStringifier {
 
-    val DATE_FORMAT = SimpleDateFormat("MMM dd, yy")
+    @SuppressLint("SimpleDateFormat")
+    private val DATE_FORMAT = SimpleDateFormat("MMM dd, yy")
 
     fun stringify(item: Any): CharSequence {
         return when (item) {
@@ -17,6 +20,11 @@ object PodItemStrigifier {
                     "[E]"
                 } else ""
             } ${readableDate(item.pubDate)}
+            """.trimIndent()
+            is Podcast -> """
+                ${item.title} 
+                Last build: ${readableDate(item.lastBuildDate)}
+                ${item.description.take(100)}
             """.trimIndent()
             else -> item.toString()
         }

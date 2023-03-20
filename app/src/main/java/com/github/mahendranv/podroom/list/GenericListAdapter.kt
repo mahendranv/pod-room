@@ -26,7 +26,7 @@ class GenericListAdapter(
 
     override fun onBindViewHolder(holder: GenericItemHolder, position: Int) {
         val item = itemList[position]
-        holder.textView.text = PodItemStrigifier.stringify(item)
+        holder.textView.text = PodItemStringifier.stringify(item)
         holder.textView.setOnClickListener { clickListener?.onItemClick(item) }
         if (popupHandler != null) {
             holder.itemView.setOnLongClickListener { anchor ->

@@ -17,6 +17,7 @@ import androidx.room.PrimaryKey
         )
     ],
     indices = [
+        Index(value = ["channel_id"], unique = false),
         Index(value = ["stream_url"], unique = true)
     ]
 )

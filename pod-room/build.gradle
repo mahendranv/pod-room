@@ -12,6 +12,12 @@ android {
         minSdk 23
         targetSdk 33
 
+        kapt {
+            arguments {
+                arg("room.schemaLocation", "$projectDir/schemas")
+            }
+        }
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
     }
@@ -48,9 +54,10 @@ android {
 
 dependencies {
 
-    implementation 'javax.xml.stream:stax-api:1.0-2'
-    implementation 'com.github.mahendranv:anchor-rss:0.3'
+    implementation 'com.github.mahendranv:anchor-rss:0.3.1.1'
 //    implementation project(':anchor-rss')
+    implementation 'javax.xml.stream:stax-api:1.0-2'
+    implementation 'com.fasterxml.woodstox:woodstox-core:6.5.0'
 
     implementation "androidx.room:room-ktx:2.5.0"
     implementation "androidx.room:room-runtime:2.5.0"
