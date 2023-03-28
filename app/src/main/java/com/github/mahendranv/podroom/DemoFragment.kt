@@ -6,6 +6,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
+import com.github.mahendranv.podroom.screens.EpisodesListScreen
 
 class DemoFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChangeListener,
     Preference.OnPreferenceClickListener {
@@ -54,7 +55,10 @@ class DemoFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChangeLi
                 findNavController().navigate(R.id.action_demoFragment_to_podcastsListFragment)
             }
             "view_episodes" -> {
-                findNavController().navigate(R.id.action_demoFragment_to_episodesListScreen)
+                findNavController().navigate(
+                    R.id.action_demoFragment_to_episodesListScreen,
+                    EpisodesListScreen.prepareArgs()
+                )
             }
             "add_preset_podcasts" -> {
                 Toast.makeText(requireContext(), "Adding podcasts", Toast.LENGTH_SHORT).show()

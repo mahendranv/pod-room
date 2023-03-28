@@ -6,7 +6,9 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.github.mahendranv.podroom.DemoViewModel
+import com.github.mahendranv.podroom.R
 import com.github.mahendranv.podroom.entity.Podcast
 import com.github.mahendranv.podroom.list.GenericListFragment
 import kotlinx.coroutines.Dispatchers
@@ -15,7 +17,7 @@ import kotlinx.coroutines.launch
 
 class PodcastsListFragment : GenericListFragment() {
 
-    val viewModel by viewModels<DemoViewModel>()
+    private val viewModel by viewModels<DemoViewModel>()
 
     override fun getTitle() = "Podcasts"
 
@@ -32,7 +34,11 @@ class PodcastsListFragment : GenericListFragment() {
     }
 
     override fun onItemClick(item: Any?) {
-        // no-op
+        val podcast = item as? Podcast? ?: return
+        findNavController().navigate(
+            R.id.action_podcastsListFragment_to_episodesListScreen,
+            EpisodesListScreen.prepareArgs(channelId = podcast.id!!)
+        )
     }
 
     override fun getActions(): List<String> = listOf(

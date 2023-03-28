@@ -7,7 +7,7 @@
     <fragment
         android:id="@+id/demoFragment"
         android:name="com.github.mahendranv.podroom.DemoFragment"
-        android:label="DemoFragment" >
+        android:label="DemoFragment">
         <action
             android:id="@+id/action_demoFragment_to_podcastsListFragment"
             app:destination="@id/podcastsListFragment" />
@@ -19,9 +19,13 @@
     <fragment
         android:id="@+id/podcastsListFragment"
         android:name="com.github.mahendranv.podroom.screens.PodcastsListFragment"
-        android:label="PodcastsListFragment" />
+        android:label="PodcastsListFragment" >
+        <action
+            android:id="@+id/action_podcastsListFragment_to_episodesListScreen"
+            app:destination="@id/episodesListScreen" />
+    </fragment>
     <fragment
         android:id="@+id/episodesListScreen"
         android:name="com.github.mahendranv.podroom.screens.EpisodesListScreen"
-        android:label="EpisodesListScreen" />
+        android:label="EpisodesListScreen"/>
 </navigation>

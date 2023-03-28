@@ -3,9 +3,11 @@ package com.github.mahendranv.podroom.screens
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.github.mahendranv.podroom.DemoViewModel
+import com.github.mahendranv.podroom.DemoViewModel.Companion.CHANNEL_ID_ALL
 import com.github.mahendranv.podroom.entity.Episode
 import com.github.mahendranv.podroom.list.GenericListFragment
 import kotlinx.coroutines.Dispatchers
@@ -14,7 +16,11 @@ import kotlinx.coroutines.launch
 
 class EpisodesListScreen : GenericListFragment() {
 
-    val viewModel by viewModels<DemoViewModel>()
+    private val channelId by lazy {
+        arguments?.getLong(ARG_CHANNEL_ID, CHANNEL_ID_ALL) ?: CHANNEL_ID_ALL
+    }
+
+    private val viewModel by viewModels<DemoViewModel>()
 
     override fun getTitle() = "Episodes"
 
@@ -22,7 +28,7 @@ class EpisodesListScreen : GenericListFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         lifecycleScope.launch {
-            viewModel.allEpisodes
+            viewModel.getEpisodes(channelId)
                 .flowOn(Dispatchers.Main)
                 .collect {
                     updateItems(it)
@@ -51,6 +57,13 @@ class EpisodesListScreen : GenericListFragment() {
         }
     }
 
-    private val TAG = "EpisodesListScreen"
+    companion object {
+        private const val TAG = "EpisodesListScreen"
+        private const val ARG_CHANNEL_ID = "arg_channel_id"
+
+        fun prepareArgs(channelId: Long = CHANNEL_ID_ALL) = bundleOf(
+            ARG_CHANNEL_ID to channelId
+        )
+    }
 
 }
