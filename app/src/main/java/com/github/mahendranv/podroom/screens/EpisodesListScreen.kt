@@ -42,6 +42,8 @@ class EpisodesListScreen : GenericListFragment() {
 
     override fun getActions(): List<String> = listOf(
         "Play",
+        "Play Next",
+        "Enqueue",
         "Download"
     )
 
@@ -50,8 +52,17 @@ class EpisodesListScreen : GenericListFragment() {
         when (position) {
             0 -> {
                 Log.i(TAG, "onActionClicked: Play > $episode")
+                viewModel.play(episode.id!!)
             }
             1 -> {
+                Log.i(TAG, "onActionClicked: PlayNext > $episode")
+                viewModel.playNext(episode.id!!)
+            }
+            2 -> {
+                Log.i(TAG, "onActionClicked: enqueue > $episode")
+                viewModel.enqueue(episode.id!!)
+            }
+            2 -> {
                 Log.i(TAG, "onActionClicked: Download > $episode")
             }
         }

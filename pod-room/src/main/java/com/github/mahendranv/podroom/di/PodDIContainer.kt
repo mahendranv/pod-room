@@ -8,6 +8,8 @@ import com.ctc.wstx.stax.WstxOutputFactory
 import com.fasterxml.jackson.dataformat.xml.XmlFactory
 import com.github.mahendranv.AnchorParser
 import com.github.mahendranv.podroom.db.PodcastDatabaseInternal
+import com.github.mahendranv.podroom.sdk.PlayerStore
+import com.github.mahendranv.podroom.sdk.PrefStore
 
 internal class PodDIContainer private constructor() {
 
@@ -19,6 +21,9 @@ internal class PodDIContainer private constructor() {
 
     @VisibleForTesting
     lateinit var xmlFactory: XmlFactory
+
+    @VisibleForTesting
+    lateinit var player: PlayerStore
 
     fun initialize(context: Context) {
         if (isInitialized) {
@@ -35,6 +40,12 @@ internal class PodDIContainer private constructor() {
             context,
             PodcastDatabaseInternal::class.java, "podcast-db"
         ).build()
+
+        player = PlayerStore(
+            PrefStore(context),
+            db.getPlayerDao(),
+            db.getEpisodeDao()
+        )
         isInitialized = true
     }
 

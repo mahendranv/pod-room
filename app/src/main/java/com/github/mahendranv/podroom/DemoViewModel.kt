@@ -39,6 +39,18 @@ class DemoViewModel(application: Application) : AndroidViewModel(application) {
         Log.d(TAG, "addPodcast: $url = $result")
     }
 
+    fun playNext(id: Long) = viewModelScope.launch(Dispatchers.IO) {
+        podRoom.getPlayer().playNext(id)
+    }
+
+    fun play(id: Long) = viewModelScope.launch(Dispatchers.IO) {
+        podRoom.getPlayer().play(id)
+    }
+
+    fun enqueue(id: Long) = viewModelScope.launch(Dispatchers.IO) {
+        podRoom.getPlayer().enqueue(id)
+    }
+
     companion object {
         private const val TAG = "DemoViewModel"
 
