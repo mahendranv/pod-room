@@ -29,19 +29,14 @@
 
     <PreferenceCategory app:title="Player">
 
-        <EditTextPreference
-            app:key="enqueue"
-            app:summary="Picks random episode and adds to queue"
-            app:title="Enqueue" />
-
-        <EditTextPreference
-            app:key="play_next"
-            app:summary="Adds item to 1st position"
-            app:title="Enqueue next" />
+        <Preference
+            app:key="view_queue"
+            app:summary="view player queue"
+            app:title="View Queue" />
 
         <Preference
-            app:key="clean_queue"
-            app:title="Clean queue" />
+            app:key="clear_queue"
+            app:title="Clear queue" />
 
     </PreferenceCategory>
 

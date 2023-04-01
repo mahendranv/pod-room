@@ -31,6 +31,10 @@ class PlayerStore(
         playerDao.delete(episodeId)
     }
 
+    fun clearAll() {
+        playerDao.clearAll()
+    }
+
     companion object {
 
         const val POINTER_NONE = -1L

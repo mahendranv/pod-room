@@ -32,6 +32,9 @@ interface PlayerDao {
     @Query("DELETE from player_entries WHERE id = :episodeId")
     fun delete(episodeId: Long)
 
+    @Query("DELETE from player_entries")
+    fun clearAll()
+
     @Transaction
     fun shift(from: Int, to: Int, direction: ShiftDirection) {
         val chunk = fetchInRange(from, to)

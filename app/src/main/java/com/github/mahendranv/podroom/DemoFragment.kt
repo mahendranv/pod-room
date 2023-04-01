@@ -20,7 +20,9 @@ class DemoFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChangeLi
     private val clickables = arrayOf(
         "view_podcasts",
         "view_episodes",
-        "add_preset_podcasts"
+        "add_preset_podcasts",
+        "view_queue",
+        "clear_queue"
     )
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -69,6 +71,12 @@ class DemoFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChangeLi
                 ).forEach {
                     viewModel.addPodcast(it)
                 }
+            }
+            "clear_queue" -> {
+                viewModel.clearAll()
+            }
+            "view_queue" -> {
+                findNavController().navigate(R.id.action_demoFragment_to_playerQueueScreen)
             }
         }
         return true

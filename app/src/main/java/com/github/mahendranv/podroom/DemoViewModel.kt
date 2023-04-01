@@ -51,6 +51,11 @@ class DemoViewModel(application: Application) : AndroidViewModel(application) {
         podRoom.getPlayer().enqueue(id)
     }
 
+    fun clearAll() = viewModelScope.launch(Dispatchers.IO) {
+        Log.d(TAG, "clearAll: invoked")
+        podRoom.getPlayer().clearAll()
+    }
+
     companion object {
         private const val TAG = "DemoViewModel"
 

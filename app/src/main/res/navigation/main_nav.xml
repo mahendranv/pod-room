@@ -14,6 +14,9 @@
         <action
             android:id="@+id/action_demoFragment_to_episodesListScreen"
             app:destination="@id/episodesListScreen" />
+        <action
+            android:id="@+id/action_demoFragment_to_playerQueueScreen"
+            app:destination="@id/playerQueueScreen" />
     </fragment>
 
     <fragment
@@ -28,4 +31,8 @@
         android:id="@+id/episodesListScreen"
         android:name="com.github.mahendranv.podroom.screens.EpisodesListScreen"
         android:label="EpisodesListScreen"/>
+    <fragment
+        android:id="@+id/playerQueueScreen"
+        android:name="com.github.mahendranv.podroom.screens.PlayerQueueScreen"
+        android:label="PlayerQueueScreen" />
 </navigation>
