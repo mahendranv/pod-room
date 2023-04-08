@@ -44,7 +44,8 @@ class EpisodesListScreen : GenericListFragment() {
         "Play",
         "Play Next",
         "Enqueue",
-        "Download"
+        "Download",
+        "Mark as played"
     )
 
     override fun onActionClicked(position: Int, item: Any) {
@@ -62,8 +63,12 @@ class EpisodesListScreen : GenericListFragment() {
                 Log.i(TAG, "onActionClicked: enqueue > $episode")
                 viewModel.enqueue(episode.id!!)
             }
-            2 -> {
+            3 -> {
                 Log.i(TAG, "onActionClicked: Download > $episode")
+            }
+            4 -> {
+                Log.i(TAG, "onActionClicked: Mark as played > ${episode.title}")
+                viewModel.markAsPlayed(episodeId = episode.id!!)
             }
         }
     }

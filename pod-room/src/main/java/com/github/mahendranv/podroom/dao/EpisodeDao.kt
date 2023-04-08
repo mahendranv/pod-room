@@ -34,6 +34,9 @@ interface EpisodeDao {
     @Query("SELECT * FROM episodes ORDER BY pub_date DESC")
     fun getAllEpisodes(): Flow<List<Episode>>
 
+    @Query("SELECT * FROM episodes where id = :id")
+    fun getEpisodeById(id: Long): Episode?
+
     companion object {
 
         private const val TAG = "EpisodeDao"

@@ -3,16 +3,11 @@ package com.github.mahendranv.podroom
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.viewModelScope
 import com.github.mahendranv.podroom.entity.Episode
-import com.github.mahendranv.podroom.entity.Podcast
+import com.github.mahendranv.podroom.utils.ioOperation
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.channelFlow
-import kotlinx.coroutines.flow.emitAll
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.launch
 
 class DemoViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -34,26 +29,30 @@ class DemoViewModel(application: Application) : AndroidViewModel(application) {
         return flow.flowOn(Dispatchers.IO)
     }
 
-    fun addPodcast(url: String) = viewModelScope.launch(Dispatchers.IO) {
+    fun addPodcast(url: String) = ioOperation {
         val result = podRoom.syncPodcast(url)
         Log.d(TAG, "addPodcast: $url = $result")
     }
 
-    fun playNext(id: Long) = viewModelScope.launch(Dispatchers.IO) {
+    fun playNext(id: Long) = ioOperation {
         podRoom.getPlayer().playNext(id)
     }
 
-    fun play(id: Long) = viewModelScope.launch(Dispatchers.IO) {
+    fun play(id: Long) = ioOperation {
         podRoom.getPlayer().play(id)
     }
 
-    fun enqueue(id: Long) = viewModelScope.launch(Dispatchers.IO) {
+    fun enqueue(id: Long) = ioOperation {
         podRoom.getPlayer().enqueue(id)
     }
 
-    fun clearAll() = viewModelScope.launch(Dispatchers.IO) {
+    fun clearAll() = ioOperation {
         Log.d(TAG, "clearAll: invoked")
         podRoom.getPlayer().clearAll()
+    }
+
+    fun markAsPlayed(episodeId: Long) = ioOperation {
+        podRoom.getPlayer().markAsPlayed(episodeId)
     }
 
     companion object {

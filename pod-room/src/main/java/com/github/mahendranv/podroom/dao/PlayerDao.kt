@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
+import com.github.mahendranv.podroom.entity.PlaybackPosition
 import com.github.mahendranv.podroom.entity.PlayerEntry
 
 @Dao
@@ -16,6 +17,9 @@ interface PlayerDao {
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(entry: PlayerEntry)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun setPlaybackPosition(entry: PlaybackPosition)
 
     @Query("SELECT * from player_entries WHERE position BETWEEN :from AND :to")
     fun fetchInRange(from: Int, to: Int): List<PlayerEntry>
@@ -80,6 +84,12 @@ interface PlayerDao {
         tuckEpisode(id, 1)
     }
 
+    /**
+     * Inserts given episode next to current playing episode in the table.
+     *
+     * @param id episode to be inserted.
+     * @param currentEpisodeId episode that is being played.
+     */
     @Transaction
     fun playNext(id: Long, currentEpisodeId: Long) {
         val currentPosition = getPosition(currentEpisodeId)

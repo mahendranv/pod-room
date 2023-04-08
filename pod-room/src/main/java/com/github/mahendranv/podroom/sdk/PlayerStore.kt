@@ -2,9 +2,12 @@ package com.github.mahendranv.podroom.sdk
 
 import com.github.mahendranv.podroom.dao.EpisodeDao
 import com.github.mahendranv.podroom.dao.PlayerDao
+import com.github.mahendranv.podroom.entity.PlaybackPosition
 
 /**
  * Persistence front for player related operations.
+ * 1. Queue
+ * 2. Playback positions
  */
 class PlayerStore(
     private val prefStore: PrefStore,
@@ -29,6 +32,27 @@ class PlayerStore(
 
     fun removeFromQueue(episodeId: Long) {
         playerDao.delete(episodeId)
+    }
+
+    /**
+     * Marks episode complete.
+     */
+    fun markAsPlayed(episodeId: Long) {
+        val episode = episodeDao.getEpisodeById(episodeId)
+        if (episode != null) {
+            val entry =
+                PlaybackPosition(id = episodeId, playbackPosition = episode.durationInSeconds)
+            playerDao.setPlaybackPosition(entry)
+        }
+    }
+
+    /**
+     * Stores player position of the episode for resume purpose.
+     */
+    fun setPlaybackPosition(episodeId: Long, position: Long) {
+        val entry =
+            PlaybackPosition(id = episodeId, playbackPosition = position)
+        playerDao.setPlaybackPosition(entry)
     }
 
     fun clearAll() {
