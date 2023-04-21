@@ -18,7 +18,7 @@ class PodcastDatabase {
 
     suspend fun addChannel(channel: Channel): Long {
         val channelId = upsertChannel(channel)
-        val episodes = channel.items.map { item ->
+        val episodes = channel.items.filter { it.isValid }.map { item ->
             Episode(
                 title = item.title,
                 description = item.description,
@@ -30,9 +30,9 @@ class PodcastDatabase {
                 pubDate = item.pubDate.time,
                 durationInSeconds = item.durationInSeconds,
                 duration = item.printableDuration,
-                streamUrl = item.enclosure.url,
-                streamType = item.enclosure.type,
-                streamSize = item.enclosure.length.toInt(),
+                streamUrl = item.audioEnclosure.url,
+                streamType = item.audioEnclosure.type,
+                streamSize = item.audioEnclosure.length.toInt(),
                 channelId = channelId
             )
         }
