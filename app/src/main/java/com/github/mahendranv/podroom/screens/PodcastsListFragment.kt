@@ -4,18 +4,14 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.flowWithLifecycle
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.github.mahendranv.podroom.DemoViewModel
 import com.github.mahendranv.podroom.R
 import com.github.mahendranv.podroom.entity.Podcast
 import com.github.mahendranv.podroom.list.GenericListFragment
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.launch
+import com.github.mahendranv.podroom.list.PodItemStringifier
 
-class PodcastsListFragment : GenericListFragment() {
+class PodcastsListFragment : GenericListFragment<Podcast>() {
 
     private val viewModel by viewModels<DemoViewModel>()
 
@@ -23,21 +19,13 @@ class PodcastsListFragment : GenericListFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        lifecycleScope.launch {
-            viewModel.podcasts
-                .flowOn(Dispatchers.Main)
-                .flowWithLifecycle(lifecycle)
-                .collect {
-                    updateItems(it)
-                }
-        }
+        fetchItems(viewModel.podcasts)
     }
 
-    override fun onItemClick(item: Any?) {
-        val podcast = item as? Podcast? ?: return
+    override fun onItemClick(podcast: Podcast) {
         findNavController().navigate(
             R.id.action_podcastsListFragment_to_episodesListScreen,
-            EpisodesListScreen.prepareArgs(channelId = podcast.id!!)
+            EpisodesListScreen.prepareArgs(channelId = podcast.id)
         )
     }
 
@@ -46,16 +34,23 @@ class PodcastsListFragment : GenericListFragment() {
         "Delete"
     )
 
-    override fun onActionClicked(position: Int, item: Any) {
-        val podcast = item as? Podcast? ?: return
+    override fun onActionClicked(position: Int, item: Podcast) {
         when (position) {
             0 -> {
-                Log.i(TAG, "onActionClicked: Sync podcast $podcast")
+                Log.i(TAG, "onActionClicked: Sync podcast $item")
             }
             1 -> {
-                Log.i(TAG, "onActionClicked: Delete podcast $podcast")
+                Log.i(TAG, "onActionClicked: Delete podcast $item")
             }
         }
+    }
+
+    override fun prepareUiString(item: Podcast): CharSequence {
+        return """
+                ${item.title} 
+                Last build: ${PodItemStringifier.readableDate(item.lastBuildDate)}
+                ${item.description.take(100)}
+            """.trimIndent()
     }
 
     private val TAG = "PodcastsListFragment"

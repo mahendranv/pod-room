@@ -8,14 +8,15 @@ import androidx.appcompat.widget.ListPopupWindow
 import androidx.recyclerview.widget.RecyclerView
 import com.github.mahendranv.podroom.R
 
-class GenericListAdapter(
-    private val clickListener: OnItemClickListener?,
-    private val popupHandler: IPopupHandler?
+class GenericListAdapter<T>(
+    private val clickListener: OnItemClickListener<T>?,
+    private val popupHandler: IPopupHandler<T>?,
+    private val stringifier: IStringifier<T>,
 ) : RecyclerView.Adapter<GenericItemHolder>() {
 
-    private var itemList: List<Any> = emptyList()
+    private var itemList: List<T> = emptyList()
 
-    fun setItems(_items: List<Any>) {
+    fun setItems(_items: List<T>) {
         itemList = _items
     }
 
@@ -26,7 +27,7 @@ class GenericListAdapter(
 
     override fun onBindViewHolder(holder: GenericItemHolder, position: Int) {
         val item = itemList[position]
-        holder.textView.text = PodItemStringifier.stringify(item)
+        holder.textView.text = stringifier.prepareUiString(item) //PodItemStringifier.stringify(item as Any)
         holder.textView.setOnClickListener { clickListener?.onItemClick(item) }
         if (popupHandler != null) {
             holder.itemView.setOnLongClickListener { anchor ->
@@ -36,7 +37,7 @@ class GenericListAdapter(
         }
     }
 
-    private fun showPopup(anchorView: View, item: Any) {
+    private fun showPopup(anchorView: View, item: T) {
         val itemList = popupHandler?.getActions() ?: return
         val popup = ListPopupWindow(anchorView.context)
         val adapter =
@@ -54,7 +55,7 @@ class GenericListAdapter(
         return itemList.size
     }
 
-    interface OnItemClickListener {
-        fun onItemClick(item: Any?)
+    interface OnItemClickListener<T> {
+        fun onItemClick(item: T)
     }
 }
