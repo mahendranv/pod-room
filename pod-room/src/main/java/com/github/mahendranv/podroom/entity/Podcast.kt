@@ -12,7 +12,7 @@ import androidx.room.PrimaryKey
     ]
 )
 data class Podcast(
-    @PrimaryKey val id: Long?,
+    @PrimaryKey(autoGenerate = true) val id: Long = 0,
     @ColumnInfo(name = "title") val title: String,
     @ColumnInfo(name = "link") val link: String,
     @ColumnInfo(name = "feed_url") val feedUrl: String,

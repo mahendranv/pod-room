@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
+import androidx.room.Update
 import com.github.mahendranv.podroom.entity.Episode
 import kotlinx.coroutines.flow.Flow
 
@@ -15,17 +16,31 @@ interface EpisodeDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(episode: Episode): Long
 
+    @Update
+    suspend fun update(episode: Episode)
+
     @Transaction
     suspend fun insertAll(episodes: List<Episode>): Int {
-        var counter = 0
-        episodes.forEach { episode ->
-            val id = insert(episode)
-            if (id != -1L) {
-                counter++
+        var insertions = 0
+        var updates = 0
+        episodes.filter {
+            it.streamUrl.trim().isNotEmpty()
+        }.forEach { episode ->
+            val existingEntry = getIDByStream(episode.streamUrl)
+            if (existingEntry == null) {
+                insert(episode)
+                insertions++
+            } else {
+                Log.d(TAG, "duplicate: [$existingEntry]" + episode.title + " > " + episode.streamUrl)
+                update(episode.copy(id = existingEntry))
+                updates++
             }
         }
-        Log.d(TAG, "insertAll: $counter out of ${episodes.size} episodes inserted")
-        return counter
+        Log.d(
+            TAG, "insertAll: [inserts: $insertions, updates: $updates, " +
+                    "skipped = ${episodes.size - (insertions + updates)}]"
+        )
+        return insertions + updates
     }
 
     @Query("SELECT * FROM episodes WHERE channel_id = :channelId ORDER BY pub_date DESC")
@@ -36,6 +51,12 @@ interface EpisodeDao {
 
     @Query("SELECT * FROM episodes where id = :id")
     fun getEpisodeById(id: Long): Episode?
+
+    /**
+     * Returns pk if the given stream has been already inserted.
+     */
+    @Query("SELECT id FROM episodes where stream_url = :stream")
+    fun getIDByStream(stream: String): Long?
 
     companion object {
 

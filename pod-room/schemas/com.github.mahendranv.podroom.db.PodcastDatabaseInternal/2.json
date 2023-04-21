@@ -2,17 +2,17 @@
   "formatVersion": 1,
   "database": {
     "version": 2,
-    "identityHash": "0ca11ebad23d0bc9c8a52a6014746e41",
+    "identityHash": "a55e08ed5a38b42d876eb82c2c7434f5",
     "entities": [
       {
         "tableName": "podcasts",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER, `title` TEXT NOT NULL, `link` TEXT NOT NULL, `feed_url` TEXT NOT NULL, `description` TEXT NOT NULL, `category` TEXT NOT NULL, `image` TEXT NOT NULL, `explicit` INTEGER NOT NULL, `last_build_date` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `title` TEXT NOT NULL, `link` TEXT NOT NULL, `feed_url` TEXT NOT NULL, `description` TEXT NOT NULL, `category` TEXT NOT NULL, `image` TEXT NOT NULL, `explicit` INTEGER NOT NULL, `last_build_date` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
             "columnName": "id",
             "affinity": "INTEGER",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "title",
@@ -64,7 +64,7 @@
           }
         ],
         "primaryKey": {
-          "autoGenerate": false,
+          "autoGenerate": true,
           "columnNames": [
             "id"
           ]
@@ -84,13 +84,13 @@
       },
       {
         "tableName": "episodes",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `title` TEXT NOT NULL, `description` TEXT NOT NULL, `link` TEXT NOT NULL, `guid` TEXT NOT NULL, `season` INTEGER NOT NULL, `episode` INTEGER NOT NULL, `explicit` INTEGER NOT NULL, `pub_date` INTEGER NOT NULL, `duration_in_seconds` INTEGER NOT NULL, `duration` TEXT NOT NULL, `stream_url` TEXT NOT NULL, `stream_type` TEXT NOT NULL, `stream_size` INTEGER NOT NULL, `channel_id` INTEGER NOT NULL, FOREIGN KEY(`channel_id`) REFERENCES `podcasts`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `title` TEXT NOT NULL, `description` TEXT NOT NULL, `link` TEXT NOT NULL, `guid` TEXT NOT NULL, `season` INTEGER NOT NULL, `episode` INTEGER NOT NULL, `explicit` INTEGER NOT NULL, `pub_date` INTEGER NOT NULL, `duration_in_seconds` INTEGER NOT NULL, `duration` TEXT NOT NULL, `stream_url` TEXT NOT NULL, `stream_type` TEXT NOT NULL, `stream_size` INTEGER NOT NULL, `channel_id` INTEGER NOT NULL, FOREIGN KEY(`channel_id`) REFERENCES `podcasts`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "id",
             "columnName": "id",
             "affinity": "INTEGER",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "title",
@@ -324,7 +324,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '0ca11ebad23d0bc9c8a52a6014746e41')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'a55e08ed5a38b42d876eb82c2c7434f5')"
     ]
   }
 }
