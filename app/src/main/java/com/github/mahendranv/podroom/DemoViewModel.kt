@@ -3,13 +3,19 @@ package com.github.mahendranv.podroom
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
+import com.github.mahendranv.podroom.entity.Download
 import com.github.mahendranv.podroom.entity.Episode
 import com.github.mahendranv.podroom.utils.ioOperation
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
+import kotlin.random.Random
 
 class DemoViewModel(application: Application) : AndroidViewModel(application) {
+
+    private val random = Random(2435)
+
+    private val ioDispatcher = Dispatchers.IO
 
     private val podRoom: PodRoom by lazy {
         PodRoom.getInstance(application)
@@ -17,7 +23,9 @@ class DemoViewModel(application: Application) : AndroidViewModel(application) {
 
     val podcasts =
         podRoom.getPodcastDao().fetchAll()
-            .flowOn(Dispatchers.IO)
+            .flowOn(ioDispatcher)
+
+    val downloads = podRoom.getDownloads().fetchAll().flowOn(ioDispatcher)
 
     fun getEpisodes(channelId: Long): Flow<List<Episode>> {
         val dao = podRoom.getEpisodeDao()
@@ -53,6 +61,22 @@ class DemoViewModel(application: Application) : AndroidViewModel(application) {
 
     fun markAsPlayed(episodeId: Long) = ioOperation {
         podRoom.getPlayer().markAsPlayed(episodeId)
+    }
+
+    fun download(id: Long) {
+        updateDownloadProgress(id = id, progress = 0)
+    }
+
+    fun updateDownloadProgress(id: Long, progress: Int = random.nextInt(0, 100)) = ioOperation {
+        podRoom.getDownloads().saveProgress(Download(id = id, progress = progress))
+    }
+
+    fun markDownloadComplete(id: Long) = ioOperation {
+        podRoom.getDownloads().markAsComplete(id = id, filePath = "file_${random.nextInt()}")
+    }
+
+    fun deleteDownload(id: Long) = ioOperation {
+        podRoom.getDownloads().delete(id)
     }
 
     companion object {

@@ -40,6 +40,15 @@
 
     </PreferenceCategory>
 
+
+    <PreferenceCategory app:title="Downloads">
+
+        <Preference
+            app:key="view_downloads"
+            app:title="View downloads" />
+
+    </PreferenceCategory>
+
     <PreferenceCategory app:title="Misc">
         <Preference
             app:key="add_preset_podcasts"

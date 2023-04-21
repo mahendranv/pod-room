@@ -22,7 +22,8 @@ class DemoFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChangeLi
         "view_episodes",
         "add_preset_podcasts",
         "view_queue",
-        "clear_queue"
+        "clear_queue",
+        "view_downloads"
     )
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -77,6 +78,9 @@ class DemoFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChangeLi
             }
             "view_queue" -> {
                 findNavController().navigate(R.id.action_demoFragment_to_playerQueueScreen)
+            }
+            "view_downloads" -> {
+                findNavController().navigate(R.id.action_demoFragment_to_downloadsListScreen)
             }
         }
         return true
