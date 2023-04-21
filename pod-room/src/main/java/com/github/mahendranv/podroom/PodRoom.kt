@@ -7,7 +7,6 @@ import com.github.mahendranv.model.StatusCode
 import com.github.mahendranv.podroom.db.PodcastDatabase
 import com.github.mahendranv.podroom.di.PodDIContainer
 import com.github.mahendranv.podroom.model.PodResult
-import com.github.mahendranv.podroom.sdk.PlayerStore
 
 class PodRoom private constructor(private val appContext: Context) {
 
@@ -33,13 +32,16 @@ class PodRoom private constructor(private val appContext: Context) {
     fun getPodcastDao() = db.db.getPodcastDao()
     fun getEpisodeDao() = db.db.getEpisodeDao()
     fun getPlayerDao() = db.db.getPlayerDao()
+    fun getDownloadDao() = db.db.getDownloadDao()
 
     fun getPlayer() = PodDIContainer.getInstance().player
 
+    fun getDownloads() = PodDIContainer.getInstance().downloads
+
     companion object {
 
-        const val Version = "0.1"
-        const val VersionCode = 1
+        const val Version = "0.3"
+        const val VersionCode = 3
 
         private var instance: PodRoom? = null
 

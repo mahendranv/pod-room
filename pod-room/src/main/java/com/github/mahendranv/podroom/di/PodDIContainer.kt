@@ -7,7 +7,9 @@ import com.ctc.wstx.stax.WstxInputFactory
 import com.ctc.wstx.stax.WstxOutputFactory
 import com.fasterxml.jackson.dataformat.xml.XmlFactory
 import com.github.mahendranv.AnchorParser
+import com.github.mahendranv.podroom.dao.DownloadDao
 import com.github.mahendranv.podroom.db.PodcastDatabaseInternal
+import com.github.mahendranv.podroom.sdk.DownloadStore
 import com.github.mahendranv.podroom.sdk.PlayerStore
 import com.github.mahendranv.podroom.sdk.PrefStore
 
@@ -22,8 +24,9 @@ internal class PodDIContainer private constructor() {
     @VisibleForTesting
     lateinit var xmlFactory: XmlFactory
 
-    @VisibleForTesting
     lateinit var player: PlayerStore
+
+    lateinit var downloads: DownloadStore
 
     fun initialize(context: Context) {
         if (isInitialized) {
@@ -45,6 +48,9 @@ internal class PodDIContainer private constructor() {
             PrefStore(context),
             db.getPlayerDao(),
             db.getEpisodeDao()
+        )
+        downloads = DownloadStore(
+            db.getDownloadDao()
         )
         isInitialized = true
     }
