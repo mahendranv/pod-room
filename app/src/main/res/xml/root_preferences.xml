@@ -10,18 +10,18 @@
 
         <EditTextPreference
             app:icon="@drawable/baseline_add_24"
-            app:key="add_podcast"
+            app:key="@string/add_podcast"
             app:summary="Input podcast RSS feed url to fetch channel and episodes."
             app:title="Add podcast" />
 
         <Preference
             app:icon="@drawable/baseline_rss_feed_24"
-            app:key="view_podcasts"
+            app:key="@string/view_podcasts"
             app:title="View podcasts" />
 
         <Preference
             app:icon="@drawable/baseline_playlist_play_24"
-            app:key="view_episodes"
+            app:key="@string/view_episodes"
             app:summary="Lists all episodes across podcasts"
             app:title="View episodes" />
 
@@ -30,12 +30,12 @@
     <PreferenceCategory app:title="Player">
 
         <Preference
-            app:key="view_queue"
+            app:key="@string/view_queue"
             app:summary="view player queue"
             app:title="View Queue" />
 
         <Preference
-            app:key="clear_queue"
+            app:key="@string/clear_queue"
             app:title="Clear queue" />
 
     </PreferenceCategory>
@@ -44,19 +44,19 @@
     <PreferenceCategory app:title="Downloads">
 
         <Preference
-            app:key="view_downloads"
+            app:key="@string/view_downloads"
             app:title="View downloads" />
 
     </PreferenceCategory>
 
     <PreferenceCategory app:title="Misc">
         <Preference
-            app:key="add_preset_podcasts"
+            app:key="@string/add_preset_podcasts"
             app:summary="Inserts few podcasts for initial seeding"
             app:title="Add sample podcasts" />
 
         <Preference
-            app:key="clear_all"
+            app:key="@string/clear_all"
             app:title="Clear all tables" />
 
     </PreferenceCategory>

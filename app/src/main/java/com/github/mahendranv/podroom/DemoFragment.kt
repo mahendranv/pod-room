@@ -14,16 +14,16 @@ class DemoFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChangeLi
     private val viewModel by viewModels<DemoViewModel>()
 
     private val keys = arrayOf(
-        "add_podcast"
+        R.string.add_podcast
     )
 
     private val clickables = arrayOf(
-        "view_podcasts",
-        "view_episodes",
-        "add_preset_podcasts",
-        "view_queue",
-        "clear_queue",
-        "view_downloads"
+        R.string.view_podcasts,
+        R.string.view_episodes,
+        R.string.add_preset_podcasts,
+        R.string.view_queue,
+        R.string.clear_queue,
+        R.string.view_downloads
     )
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -34,18 +34,18 @@ class DemoFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChangeLi
         }
 
         for (k in keys) {
-            findPreference<Preference>(k)?.onPreferenceChangeListener = this
+            findPreference<Preference>(getString(k))?.onPreferenceChangeListener = this
         }
 
         for (k in clickables) {
-            findPreference<Preference>(k)?.onPreferenceClickListener = this
+            findPreference<Preference>(getString(k))?.onPreferenceClickListener = this
         }
     }
 
     override fun onPreferenceChange(preference: Preference, newValue: Any?): Boolean {
         if (newValue == null) return false
         when (preference.key) {
-            "add_podcast" -> {
+            getString(R.string.add_podcast) -> {
                 viewModel.addPodcast(newValue as String)
             }
         }
@@ -54,16 +54,16 @@ class DemoFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChangeLi
 
     override fun onPreferenceClick(preference: Preference): Boolean {
         when (preference.key) {
-            "view_podcasts" -> {
+            getString(R.string.view_podcasts) -> {
                 findNavController().navigate(R.id.action_demoFragment_to_podcastsListFragment)
             }
-            "view_episodes" -> {
+            getString(R.string.view_episodes) -> {
                 findNavController().navigate(
                     R.id.action_demoFragment_to_episodesListScreen,
                     EpisodesListScreen.prepareArgs()
                 )
             }
-            "add_preset_podcasts" -> {
+            getString(R.string.add_preset_podcasts) -> {
                 Toast.makeText(requireContext(), "Adding podcasts", Toast.LENGTH_SHORT).show()
                 arrayOf(
                     "https://feed.pod.co/the-podcast-lab",
@@ -73,13 +73,13 @@ class DemoFragment : PreferenceFragmentCompat(), Preference.OnPreferenceChangeLi
                     viewModel.addPodcast(it)
                 }
             }
-            "clear_queue" -> {
+            getString(R.string.clear_queue) -> {
                 viewModel.clearAll()
             }
-            "view_queue" -> {
+            getString(R.string.view_queue) -> {
                 findNavController().navigate(R.id.action_demoFragment_to_playerQueueScreen)
             }
-            "view_downloads" -> {
+            getString(R.string.view_downloads) -> {
                 findNavController().navigate(R.id.action_demoFragment_to_downloadsListScreen)
             }
         }

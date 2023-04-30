@@ -17,4 +17,12 @@
     <string name="attachment_summary_on">Automatically download attachments for incoming emails
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="view_podcasts" translatable="false">view_podcasts</string>
+    <string name="view_episodes" translatable="false">view_episodes</string>
+    <string name="add_preset_podcasts" translatable="false">add_preset_podcasts</string>
+    <string name="view_queue" translatable="false">view_queue</string>
+    <string name="clear_queue" translatable="false">clear_queue</string>
+    <string name="view_downloads" translatable="false">view_downloads</string>
+    <string name="clear_all" translatable="false">clear_all</string>
+    <string name="add_podcast" translatable="false">add_podcast</string>
 </resources>
