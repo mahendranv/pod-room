@@ -28,6 +28,7 @@ abstract class BaseTest {
                 .allowMainThreadQueries()
                 .build()
         diContainer.isInitialized = true
+        diContainer.initializeSubComponents(appContext)
 
         podRoom = PodRoom.getInstance(context = appContext)
         println("setup " + diContainer.db.openHelper.writableDatabase.path)

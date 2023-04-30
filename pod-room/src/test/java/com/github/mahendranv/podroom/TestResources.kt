@@ -8,6 +8,7 @@ object TestResources {
 
     val FEED_SVK = testAssetUrl("feeds/svk_20230220.xml")
     val FEED_SVK_APR_2023 = testAssetUrl("feeds/svk_20230421.xml")
+    val FEED_SVK_APR_30_2023 = testAssetUrl("feeds/svk_20230430.xml")
 
     val FEED_FRAGMENTED = testAssetUrl("feeds/fragmented.xml")
 

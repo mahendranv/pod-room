@@ -38,7 +38,7 @@ class DemoViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun addPodcast(url: String) = ioOperation {
-        val result = podRoom.syncPodcast(url)
+        val result = podRoom.getSyncer().syncPodcast(url)
         Log.d(TAG, "addPodcast: $url = $result")
     }
 
@@ -77,6 +77,10 @@ class DemoViewModel(application: Application) : AndroidViewModel(application) {
 
     fun deleteDownload(id: Long) = ioOperation {
         podRoom.getDownloads().delete(id)
+    }
+
+    fun syncPodcast(id: Long) = ioOperation {
+        podRoom.getSyncer().syncPodcast(id)
     }
 
     companion object {

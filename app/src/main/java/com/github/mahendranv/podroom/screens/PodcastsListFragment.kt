@@ -38,6 +38,7 @@ class PodcastsListFragment : GenericListFragment<Podcast>() {
         when (position) {
             0 -> {
                 Log.i(TAG, "onActionClicked: Sync podcast $item")
+                viewModel.syncPodcast(item.id)
             }
             1 -> {
                 Log.i(TAG, "onActionClicked: Delete podcast $item")
