@@ -4,6 +4,14 @@ plugins {
     id 'kotlin-kapt'
 }
 
+def localPropFile = rootProject.file("local.properties")
+def localProps = new Properties()
+if (localPropFile.exists()) {
+    localProps.load(localPropFile.newDataInputStream())
+}
+def isDevSandbox = localProps.getProperty("is_dev_sandbox", "false").toBoolean()
+println("Is dev sandbox: " + isDevSandbox)
+
 android {
     namespace 'com.github.mahendranv.podroom'
     compileSdk 33
@@ -36,16 +44,11 @@ android {
         jvmTarget = '1.8'
     }
     packagingOptions {
-        exclude 'META-INF/LICENSE'
-        exclude 'META-INF/NOTICE'
-        exclude 'META-INF/DEPENDENCIES'
-        exclude 'META-INF/ASL2.0'
-        exclude 'META-INF/LICENSE.txt'
-        exclude 'META-INF/LICENSE.md'
-        exclude 'META-INF/NOTICE.txt'
-        exclude 'META-INF/INDEX.LIST'
+        resources {
+            excludes += ['META-INF/LICENSE', 'META-INF/NOTICE', 'META-INF/DEPENDENCIES', 'META-INF/ASL2.0', 'META-INF/LICENSE.txt', 'META-INF/LICENSE.md', 'META-INF/NOTICE.txt', 'META-INF/INDEX.LIST']
+        }
     }
-    testOptions  {
+    testOptions {
         unitTests {
             includeAndroidResources = true
         }
@@ -53,23 +56,25 @@ android {
 }
 
 dependencies {
-
-    implementation 'com.github.mahendranv:anchor-rss:0.3.2.0'
-//    implementation project(':anchor-rss')
+    if (isDevSandbox) {
+        implementation project(':anchor-rss')
+    } else {
+        implementation 'com.github.mahendranv:anchor-rss:0.3.3.0'
+    }
     implementation 'javax.xml.stream:stax-api:1.0-2'
-    implementation 'com.fasterxml.woodstox:woodstox-core:6.5.0'
+    implementation 'com.fasterxml.woodstox:woodstox-core:6.5.1'
 
-    implementation "androidx.room:room-ktx:2.5.0"
-    implementation "androidx.room:room-runtime:2.5.0"
-    kapt "androidx.room:room-compiler:2.5.0"
-    testImplementation 'androidx.room:room-testing:2.5.0'
+    implementation "androidx.room:room-ktx:2.5.1"
+    implementation "androidx.room:room-runtime:2.5.1"
+    kapt "androidx.room:room-compiler:2.5.1"
+    testImplementation 'androidx.room:room-testing:2.5.1'
 
     implementation 'androidx.core:core-ktx:1.10.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
 
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'androidx.test:core:1.5.0'
-    testImplementation 'org.robolectric:robolectric:4.9.2'
+    testImplementation 'org.robolectric:robolectric:4.10'
 
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
