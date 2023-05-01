@@ -52,6 +52,13 @@ class PodcastSyncer(
         }
     }
 
+    /**
+     * Deletes given podcast and cascades delete to other dependents.
+     */
+    suspend fun deletePodcast(id: Long) : Boolean {
+        return podcastDao.deletePodcast(id) == 1
+    }
+
     private suspend fun addChannel(channel: Channel): Long {
         val podcast = channel.toPodcast()
         val channelId = podcastDao.insertPodcast(podcast)

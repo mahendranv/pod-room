@@ -3,6 +3,7 @@ package com.github.mahendranv.podroom
 import com.github.mahendranv.podroom.model.PodResult
 import com.github.mahendranv.podroom.sdk.PodcastSyncer
 import junit.framework.TestCase.*
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.runBlocking
 import org.junit.After
@@ -100,6 +101,36 @@ class PodRoomTest : BaseTest() {
         val result = podRoom.getSyncer().syncPodcast(10)
         assertTrue(result is PodResult.Failure)
         assertEquals(PodcastSyncer.ERROR_UNKNOWN_PODCAST_ID, (result as PodResult.Failure).errorCode)
+    }
+
+    @Test
+    fun test_delete_podcast_cascades() = runBlocking {
+        val result = podRoom.getSyncer().syncPodcast(TestResources.FEED_SVK)
+        require(result is PodResult.Success)
+        val podcastId = result.data
+
+        // Sync complete and episodes are added to player and downloads.
+        podRoom.getPlayer().enqueue(1)
+        podRoom.getPlayer().enqueue(2)
+        val queue = podRoom.getPlayerDao().fetchAll().first()
+        assertEquals(2, queue.size)
+
+        // downloads
+        podRoom.getDownloads().markAsComplete(1, "file1")
+        podRoom.getDownloads().markAsComplete(2, "file2")
+        val downloads = podRoom.getDownloads().fetchAll().first()
+        assertEquals(2, downloads.size)
+
+        // episodes
+        val allEpisodes = podRoom.getEpisodeDao().getAllEpisodes().first()
+        assertTrue(allEpisodes.isNotEmpty())
+
+        // manipulation - podcast is deleted.
+        podRoom.getSyncer().deletePodcast(podcastId)
+        assertTrue(podRoom.getPodcastDao().fetchAll().first().isEmpty())
+        assertTrue(podRoom.getEpisodeDao().getAllEpisodes().first().isEmpty())
+        assertTrue(podRoom.getPlayerDao().fetchAll().first().isEmpty())
+        assertTrue(podRoom.getDownloadDao().fetchAll().first().isEmpty())
     }
 
     @After

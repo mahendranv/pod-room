@@ -8,6 +8,7 @@ import androidx.room.Query
 import androidx.room.Transaction
 import com.github.mahendranv.podroom.entity.PlaybackPosition
 import com.github.mahendranv.podroom.entity.PlayerEntry
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface PlayerDao {
@@ -20,6 +21,9 @@ interface PlayerDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun setPlaybackPosition(entry: PlaybackPosition)
+
+    @Query("SELECT * from player_entries")
+    fun fetchAll(): Flow<List<PlayerEntry>>
 
     @Query("SELECT * from player_entries WHERE position BETWEEN :from AND :to")
     fun fetchInRange(from: Int, to: Int): List<PlayerEntry>

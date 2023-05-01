@@ -83,6 +83,10 @@ class DemoViewModel(application: Application) : AndroidViewModel(application) {
         podRoom.getSyncer().syncPodcast(id)
     }
 
+    fun deletePodcast(id: Long) = ioOperation {
+        podRoom.getSyncer().deletePodcast(id)
+    }
+
     companion object {
         private const val TAG = "DemoViewModel"
 

@@ -44,4 +44,7 @@ interface PodcastDao {
     @Query("select * from podcasts where id =:id")
     fun getPodcast(id: Long): Podcast?
 
+    @Query("delete from podcasts where id= :id")
+    fun deletePodcast(id: Long): Int
+
 }

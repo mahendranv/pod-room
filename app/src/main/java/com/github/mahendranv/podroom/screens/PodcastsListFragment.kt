@@ -42,6 +42,7 @@ class PodcastsListFragment : GenericListFragment<Podcast>() {
             }
             1 -> {
                 Log.i(TAG, "onActionClicked: Delete podcast $item")
+                viewModel.deletePodcast(item.id)
             }
         }
     }
