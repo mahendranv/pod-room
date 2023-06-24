@@ -73,5 +73,4 @@ class EpisodeDetailsTest : BaseTest() {
         val pageItems2 = fetchPage(PagingSource.LoadParams.Append(itemKey, 5, placeholdersEnabled = false)).data
         assertEquals(5, pageItems2.size)
     }
-
 }

@@ -8,9 +8,14 @@ import com.github.mahendranv.podroom.di.PodDIContainer
 class PodRoom private constructor(private val appContext: Context) {
 
     internal val db = PodcastDatabase()
+
+    @VisibleForTesting
     fun getPodcastDao() = db.db.getPodcastDao()
+    @VisibleForTesting
     fun getEpisodeDao() = db.db.getEpisodeDao()
+    @VisibleForTesting
     fun getPlayerDao() = db.db.getPlayerDao()
+    @VisibleForTesting
     fun getDownloadDao() = db.db.getDownloadDao()
 
     fun getPlayer() = PodDIContainer.getInstance().player

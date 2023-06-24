@@ -55,7 +55,7 @@ class PodcastSyncer(
     /**
      * Deletes given podcast and cascades delete to other dependents.
      */
-    suspend fun deletePodcast(id: Long) : Boolean {
+    suspend fun deletePodcast(id: Long): Boolean {
         return podcastDao.deletePodcast(id) == 1
     }
 
@@ -85,19 +85,51 @@ class PodcastSyncer(
     }
 
     companion object {
+        /**
+         * No error during sync.
+         */
         const val NO_ERROR = 0
+
+        /**
+         * Connectivity errors.
+         */
         const val ERROR_IO = -100
+
+        /**
+         * The URL is malformed.
+         */
         const val ERROR_INVALID_URL = -101
+
+        /**
+         * Parser has failed.
+         *
+         * Reason:
+         * 1. Unknown tags in rss feed
+         * 2. Non-rss feed URL provided
+         */
         const val ERROR_PARSER_FAILURE = -102
+
+        /**
+         * Given primary key is not present in [PodcastDao] table.
+         */
         const val ERROR_UNKNOWN_PODCAST_ID = -103
+
+        /**
+         * Unexpected error.
+         *
+         * [PodResult.Failure.t] will have the suppressed exception.
+         */
         const val UNKNOWN_ERROR = -104
 
+        /**
+         * Maps anchor-rss libs error to numeric error codes.
+         */
         fun StatusCode.toErrorCode() = when (this) {
             StatusCode.SUCCESS -> NO_ERROR
             StatusCode.IO_EXCEPTION -> ERROR_IO
             StatusCode.INVALID_URL -> ERROR_INVALID_URL
             StatusCode.PARSER_FAILURE -> ERROR_PARSER_FAILURE
-            else -> UNKNOWN_ERROR
+            StatusCode.UNKNOWN -> UNKNOWN_ERROR
         }
     }
 }
