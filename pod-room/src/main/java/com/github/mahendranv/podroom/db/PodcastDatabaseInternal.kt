@@ -14,10 +14,12 @@ import com.github.mahendranv.podroom.entity.Episode
 import com.github.mahendranv.podroom.entity.PlaybackPosition
 import com.github.mahendranv.podroom.entity.PlayerEntry
 import com.github.mahendranv.podroom.entity.Podcast
+import com.github.mahendranv.podroom.views.EpisodeDetails
 
 @Database(
     entities = [Podcast::class, Episode::class, PlayerEntry::class, PlaybackPosition::class,
         Download::class],
+    views = [EpisodeDetails::class],
     version = 3,
     exportSchema = true,
     autoMigrations = [

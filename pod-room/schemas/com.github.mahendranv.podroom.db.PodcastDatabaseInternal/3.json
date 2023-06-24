@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 3,
-    "identityHash": "9a157e0e7d2083c88624b0be729e9726",
+    "identityHash": "464eaa124a6bbf71aca7761b201d4103",
     "entities": [
       {
         "tableName": "podcasts",
@@ -381,10 +381,15 @@
         ]
       }
     ],
-    "views": [],
+    "views": [
+      {
+        "viewName": "episode_details",
+        "createSql": "CREATE VIEW `${VIEW_NAME}` AS SELECT e.id, e.title, e.description, e.stream_url, pd.title as pod_name, pd.image, \n        e.season, e.episode, e.explicit, e.pub_date, e.duration, e.duration_in_seconds, \n        e.channel_id, COALESCE(d.progress, 0) AS download_progress, \n        e.link, COALESCE(pe.position, -1) AS position, \n        COALESCE(pe.complete, 0) AS downloaded \n    FROM episodes as e \n    LEFT JOIN download as d ON e.id = d.id \n    LEFT JOIN player_entries AS pe ON e.id = pe.id \n    LEFT JOIN podcasts AS pd ON pd.id = e.channel_id"
+      }
+    ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '9a157e0e7d2083c88624b0be729e9726')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '464eaa124a6bbf71aca7761b201d4103')"
     ]
   }
 }

@@ -61,6 +61,14 @@ class PlayerStore(
 
     companion object {
 
+        /**
+         * default player position value. Indicating the episode is not in player queue.
+         */
+        const val POSITION_NONE = -1
+
+        /**
+         * Default value for current playing episode (id). i-e Nothing is being played now.
+         */
         const val POINTER_NONE = -1L
     }
 }
