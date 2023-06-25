@@ -1,3 +1,5 @@
+[![JitPack](https://img.shields.io/github/v/release/mahendranv/pod-room?color=green&label=JitPack&logo=hackthebox&logoColor=white&style=for-the-badge)](https://jitpack.io/#mahendranv/pod-room) ![](https://img.shields.io/github/issues/mahendranv/pod-room?style=for-the-badge) ![](https://img.shields.io/github/issues-pr/mahendranv/pod-room?style=for-the-badge)
+
 # pod-room
 Podroom is a versatile data layer designed to streamline the development of podcast applications. By handling the entity and DAO management, it empowers developers to focus on enhancing the user experience and perfecting the player functionality. 
 
@@ -5,6 +7,9 @@ Podroom is a versatile data layer designed to streamline the development of podc
 - Fetch and persist podcast and episode details
 - DAOs (Data Access Objects) for download and player queue
 - Export podcast list as OPML (Outline Processor Markup Language)
+
+## Usage
+Refer https://github.com/mahendranv/pod-room/blob/main/app/src/main/java/com/github/mahendranv/podroom/DemoViewModel.kt
 
 ## Contribution
 Contributions are welcome and appreciated! We value community contributions to make Podroom the best possible solution for podcast app development. Whether you have bug reports, feature requests, or would like to submit a pull request, we welcome your input. Thank you for your interest in making Podroom even better!
