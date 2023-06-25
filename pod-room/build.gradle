@@ -2,7 +2,12 @@ plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
+
+    id 'maven-publish'
 }
+
+group = 'org.github.mahendranv'
+version = '0.0.1.0'
 
 def localPropFile = rootProject.file("local.properties")
 def localProps = new Properties()
@@ -53,6 +58,12 @@ android {
             includeAndroidResources = true
         }
     }
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+            withJavadocJar()
+        }
+    }
 }
 
 dependencies {
@@ -80,4 +91,20 @@ dependencies {
 
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                groupId = group
+                artifactId = 'pod-room'
+                version = version
+
+                afterEvaluate {
+                    from components.release
+                }
+            }
+        }
+    }
 }
