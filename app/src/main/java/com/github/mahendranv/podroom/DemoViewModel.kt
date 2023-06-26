@@ -154,11 +154,11 @@ class DemoViewModel(application: Application) : AndroidViewModel(application) {
     //////////////////////////////////
 
     fun getEpisodes(channelId: Long): Flow<List<Episode>> {
-        val dao = podRoom.getEpisodeDao()
+        val episodeStore = podRoom.getEpisodeStore()
         val flow = if (channelId == CHANNEL_ID_ALL) {
-            dao.getAllEpisodes()
+            episodeStore.getAllEpisodes()
         } else {
-            dao.getEpisodesByChannelId(channelId)
+            episodeStore.getEpisodesOfPodcast(channelId)
         }
         return flow.flowOn(Dispatchers.IO)
     }

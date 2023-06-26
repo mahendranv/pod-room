@@ -2,11 +2,11 @@ package com.github.mahendranv.podroom.views
 
 import androidx.room.ColumnInfo
 import androidx.room.DatabaseView
-import com.github.mahendranv.podroom.dao.EpisodeDao
+import com.github.mahendranv.podroom.dao.EpisodeCustomQueries
 
 @DatabaseView(
     viewName = "episode_details",
-    value = EpisodeDao.SELECTION_EPISODE_DETAILS
+    value = EpisodeCustomQueries.SELECTION_EPISODE_DETAILS
 )
 data class EpisodeDetails(
     @ColumnInfo(name = "id")

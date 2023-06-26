@@ -21,6 +21,7 @@ class PodRoom private constructor(private val appContext: Context) {
     fun getPlayer() = PodDIContainer.getInstance().player
     fun getSyncer() = PodDIContainer.getInstance().syncer
     fun getDownloads() = PodDIContainer.getInstance().downloads
+    fun getEpisodeStore() = PodDIContainer.getInstance().episodes
 
     companion object {
         const val TAG = "PodRoom"

@@ -1,9 +1,10 @@
 package com.github.mahendranv.podroom
 
 import androidx.paging.PagingSource
-import com.github.mahendranv.podroom.dao.EpisodeDao
+import com.github.mahendranv.podroom.dao.Order
 import com.github.mahendranv.podroom.entity.Download
 import com.github.mahendranv.podroom.sdk.DownloadStore
+import com.github.mahendranv.podroom.sdk.EpisodeStore
 import com.github.mahendranv.podroom.sdk.PlayerStore
 import com.github.mahendranv.podroom.views.EpisodeDetails
 import junit.framework.TestCase.assertEquals
@@ -14,9 +15,9 @@ import org.junit.Test
 
 class EpisodeDetailsTest : BaseTest() {
 
-    private lateinit var episodeDao: EpisodeDao
     private lateinit var downloadStore: DownloadStore
     private lateinit var playerStore: PlayerStore
+    private lateinit var episodeStore: EpisodeStore
 
     @Before
     override fun setup() {
@@ -24,13 +25,13 @@ class EpisodeDetailsTest : BaseTest() {
         runBlocking {
             podRoom.getSyncer().syncPodcast(TestResources.FEED_FRAGMENTED)
         }
-        episodeDao = podRoom.getEpisodeDao()
         playerStore = podRoom.getPlayer()
         downloadStore = podRoom.getDownloads()
+        episodeStore = podRoom.getEpisodeStore()
     }
 
     private suspend fun fetchPage(params: PagingSource.LoadParams<Int>): PagingSource.LoadResult.Page<Int, EpisodeDetails> {
-        val pagingSource = episodeDao.getAllEpisodeDetails()
+        val pagingSource = episodeStore.getAllEpisodesPaged(Order.DESC)
         val result: PagingSource.LoadResult<Int, EpisodeDetails> = pagingSource.load(params)
         assertTrue(result is PagingSource.LoadResult.Page)
         return result as PagingSource.LoadResult.Page<Int, EpisodeDetails>
@@ -63,7 +64,7 @@ class EpisodeDetailsTest : BaseTest() {
 
     @Test
     fun `fetch pages using next key`() = runBlocking {
-        episodeDao.getAllEpisodeDetails()
+        episodeStore.getAllEpisodesPaged(Order.DESC)
         var itemKey: Int? = null
         val result = fetchPage(PagingSource.LoadParams.Refresh(itemKey, 10, placeholdersEnabled = false))
         val pageItems1 = result.data

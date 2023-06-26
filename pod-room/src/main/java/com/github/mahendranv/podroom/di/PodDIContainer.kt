@@ -7,8 +7,10 @@ import com.ctc.wstx.stax.WstxInputFactory
 import com.ctc.wstx.stax.WstxOutputFactory
 import com.fasterxml.jackson.dataformat.xml.XmlFactory
 import com.github.mahendranv.AnchorParser
+import com.github.mahendranv.podroom.dao.EpisodeCustomQueries
 import com.github.mahendranv.podroom.db.PodcastDatabaseInternal
 import com.github.mahendranv.podroom.sdk.DownloadStore
+import com.github.mahendranv.podroom.sdk.EpisodeStore
 import com.github.mahendranv.podroom.sdk.PlayerStore
 import com.github.mahendranv.podroom.sdk.PodcastSyncer
 import com.github.mahendranv.podroom.sdk.PrefStore
@@ -27,6 +29,8 @@ internal class PodDIContainer private constructor() {
     lateinit var player: PlayerStore
 
     lateinit var downloads: DownloadStore
+
+    lateinit var episodes: EpisodeStore
 
     lateinit var syncer: PodcastSyncer
 
@@ -51,9 +55,11 @@ internal class PodDIContainer private constructor() {
 
     @VisibleForTesting
     fun initializeSubComponents(context: Context) {
-        player = PlayerStore(PrefStore(context), db.getPlayerDao(), db.getEpisodeDao())
+        val episodeDao = db.getEpisodeDao()
+        player = PlayerStore(PrefStore(context), db.getPlayerDao(), episodeDao)
         downloads = DownloadStore(db.getDownloadDao())
-        syncer = PodcastSyncer(db.getPodcastDao(), db.getEpisodeDao())
+        syncer = PodcastSyncer(db.getPodcastDao(), episodeDao)
+        episodes = EpisodeStore(episodeDao, EpisodeCustomQueries(episodeDao))
     }
 
     fun getDatabase() = db
