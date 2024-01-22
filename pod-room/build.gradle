@@ -73,7 +73,7 @@ dependencies {
         implementation 'com.github.mahendranv:anchor-rss:0.3.4.0'
     }
     implementation 'javax.xml.stream:stax-api:1.0-2'
-    implementation 'com.fasterxml.woodstox:woodstox-core:6.5.1'
+    implementation 'com.fasterxml.woodstox:woodstox-core:6.6.0'
 
     implementation "androidx.room:room-ktx:2.5.2"
     implementation "androidx.room:room-runtime:2.5.2"
